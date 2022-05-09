@@ -11,12 +11,18 @@ final hotKeyManager = HotKeyManager.instance;
 
 final kShortcutSimulateCtrlC = HotKey(
   KeyCode.keyC,
-  modifiers: [KeyModifier.alt, KeyModifier.meta],
+  modifiers: [
+    KeyModifier.shift,
+    Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
+  ],
 );
 
 final kShortcutSimulateCtrlV = HotKey(
   KeyCode.keyV,
-  modifiers: [KeyModifier.alt, KeyModifier.meta],
+  modifiers: [
+    KeyModifier.shift,
+    Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
+  ],
 );
 
 class HomePage extends StatefulWidget {
@@ -44,8 +50,8 @@ class _HomePageState extends State<HomePage> {
     hotKeyManager.register(
       kShortcutSimulateCtrlC,
       keyDownHandler: (_) async {
-        keyPressSimulator.simulateCtrlCKeyPress();
         print('simulateCtrlCKeyPress');
+        keyPressSimulator.simulateCtrlCKeyPress();
       },
     );
     hotKeyManager.register(
