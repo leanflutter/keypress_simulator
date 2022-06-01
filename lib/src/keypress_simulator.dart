@@ -47,36 +47,44 @@ class KeyPressSimulator {
 
   @Deprecated("Please use simulateKeyPress method.")
   Future<void> simulateCtrlCKeyPress() async {
-    if (Platform.isMacOS) {
-      await simulateKeyPress(
-        key: LogicalKeyboardKey.keyC,
-        modifiers: [ModifierKey.metaModifier],
-      );
-      await simulateKeyPress(
-        key: LogicalKeyboardKey.keyC,
-        modifiers: [ModifierKey.metaModifier],
-        keyDown: false,
-      );
-      return;
-    }
-    await _channel.invokeMethod('simulateCtrlCKeyPress', {});
+    await simulateKeyPress(
+      key: LogicalKeyboardKey.keyC,
+      modifiers: [
+        Platform.isMacOS
+            ? ModifierKey.metaModifier
+            : ModifierKey.controlModifier
+      ],
+    );
+    await simulateKeyPress(
+      key: LogicalKeyboardKey.keyC,
+      modifiers: [
+        Platform.isMacOS
+            ? ModifierKey.metaModifier
+            : ModifierKey.controlModifier
+      ],
+      keyDown: false,
+    );
   }
 
   @Deprecated("Please use simulateKeyPress method.")
   Future<void> simulateCtrlVKeyPress() async {
-    if (Platform.isMacOS) {
-      await simulateKeyPress(
-        key: LogicalKeyboardKey.keyV,
-        modifiers: [ModifierKey.metaModifier],
-      );
-      await simulateKeyPress(
-        key: LogicalKeyboardKey.keyV,
-        modifiers: [ModifierKey.metaModifier],
-        keyDown: false,
-      );
-      return;
-    }
-    await _channel.invokeMethod('simulateCtrlVKeyPress', {});
+    await simulateKeyPress(
+      key: LogicalKeyboardKey.keyV,
+      modifiers: [
+        Platform.isMacOS
+            ? ModifierKey.metaModifier
+            : ModifierKey.controlModifier
+      ],
+    );
+    await simulateKeyPress(
+      key: LogicalKeyboardKey.keyV,
+      modifiers: [
+        Platform.isMacOS
+            ? ModifierKey.metaModifier
+            : ModifierKey.controlModifier
+      ],
+      keyDown: false,
+    );
   }
 }
 

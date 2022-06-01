@@ -9,9 +9,11 @@ import 'package:keypress_simulator/keypress_simulator.dart';
 
 final hotKeyManager = HotKeyManager.instance;
 
-final kShortcutSimulateAltT = HotKey(
+final kShortcutSimulateCtrlT = HotKey(
   KeyCode.keyT,
-  modifiers: [KeyModifier.alt],
+  modifiers: [
+    Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
+  ],
 );
 
 final kShortcutSimulateCtrlC = HotKey(
@@ -53,16 +55,24 @@ class _HomePageState extends State<HomePage> {
     // 初始化快捷键
     hotKeyManager.unregisterAll();
     hotKeyManager.register(
-      kShortcutSimulateAltT,
+      kShortcutSimulateCtrlT,
       keyDownHandler: (_) async {
         print('simulateCtrlAKeyPress');
         await keyPressSimulator.simulateKeyPress(
           key: LogicalKeyboardKey.keyA,
-          modifiers: [ModifierKey.metaModifier],
+          modifiers: [
+            Platform.isMacOS
+                ? ModifierKey.metaModifier
+                : ModifierKey.controlModifier,
+          ],
         );
         await keyPressSimulator.simulateKeyPress(
           key: LogicalKeyboardKey.keyA,
-          modifiers: [ModifierKey.metaModifier],
+          modifiers: [
+            Platform.isMacOS
+                ? ModifierKey.metaModifier
+                : ModifierKey.controlModifier,
+          ],
           keyDown: false,
         );
         print('simulateCtrlCKeyPress');
@@ -164,21 +174,37 @@ class _HomePageState extends State<HomePage> {
             PreferenceListItem(
               title: const Text('Screenshot'),
               onTap: () async {
-                await keyPressSimulator.simulateKeyPress(
-                  key: LogicalKeyboardKey.digit4,
-                  modifiers: [
-                    ModifierKey.shiftModifier,
-                    ModifierKey.metaModifier,
-                  ],
-                );
-                await keyPressSimulator.simulateKeyPress(
-                  key: LogicalKeyboardKey.digit4,
-                  modifiers: [
-                    ModifierKey.shiftModifier,
-                    ModifierKey.metaModifier,
-                  ],
-                  keyDown: false,
-                );
+                if (Platform.isMacOS) {
+                  await keyPressSimulator.simulateKeyPress(
+                    key: LogicalKeyboardKey.digit4,
+                    modifiers: [
+                      ModifierKey.shiftModifier,
+                      ModifierKey.metaModifier,
+                    ],
+                  );
+                  await keyPressSimulator.simulateKeyPress(
+                    key: LogicalKeyboardKey.digit4,
+                    modifiers: [
+                      ModifierKey.shiftModifier,
+                      ModifierKey.metaModifier,
+                    ],
+                    keyDown: false,
+                  );
+                } else if (Platform.isWindows) {
+                  await keyPressSimulator.simulateKeyPress(
+                    key: LogicalKeyboardKey.f1,
+                    modifiers: [
+                      ModifierKey.controlModifier,
+                    ],
+                  );
+                  await keyPressSimulator.simulateKeyPress(
+                    key: LogicalKeyboardKey.f1,
+                    modifiers: [
+                      ModifierKey.controlModifier,
+                    ],
+                    keyDown: false,
+                  );
+                }
               },
             ),
           ],
