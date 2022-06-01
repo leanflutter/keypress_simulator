@@ -9,6 +9,11 @@ import 'package:keypress_simulator/keypress_simulator.dart';
 
 final hotKeyManager = HotKeyManager.instance;
 
+final kShortcutSimulateAltT = HotKey(
+  KeyCode.keyT,
+  modifiers: [KeyModifier.alt],
+);
+
 final kShortcutSimulateCtrlC = HotKey(
   KeyCode.keyC,
   modifiers: [
@@ -47,6 +52,30 @@ class _HomePageState extends State<HomePage> {
 
     // 初始化快捷键
     hotKeyManager.unregisterAll();
+    hotKeyManager.register(
+      kShortcutSimulateAltT,
+      keyDownHandler: (_) async {
+        print('simulateCtrlAKeyPress');
+        await keyPressSimulator.simulateKeyPress(
+          key: LogicalKeyboardKey.keyA,
+          modifiers: [ModifierKey.metaModifier],
+        );
+        await keyPressSimulator.simulateKeyPress(
+          key: LogicalKeyboardKey.keyA,
+          modifiers: [ModifierKey.metaModifier],
+          keyDown: false,
+        );
+        print('simulateCtrlCKeyPress');
+        await keyPressSimulator.simulateCtrlCKeyPress();
+        await Future.delayed(Duration(milliseconds: 200));
+        print('simulateCtrlVKeyPress');
+        ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+        await Clipboard.setData(ClipboardData(
+          text: 'KPS: ${data?.text}',
+        ));
+        await keyPressSimulator.simulateCtrlVKeyPress();
+      },
+    );
     hotKeyManager.register(
       kShortcutSimulateCtrlC,
       keyDownHandler: (_) async {
@@ -92,6 +121,68 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        PreferenceListSection(
+          title: const Text('Examples'),
+          children: [
+            PreferenceListItem(
+              title: const Text('Active Spotlight'),
+              onTap: () async {
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.space,
+                  modifiers: [
+                    ModifierKey.metaModifier,
+                  ],
+                );
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.space,
+                  modifiers: [
+                    ModifierKey.metaModifier,
+                  ],
+                  keyDown: false,
+                );
+              },
+            ),
+            PreferenceListItem(
+              title: const Text('Active Siri'),
+              onTap: () async {
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.space,
+                  modifiers: [
+                    ModifierKey.metaModifier,
+                  ],
+                );
+                await Future.delayed(const Duration(seconds: 6));
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.space,
+                  modifiers: [
+                    ModifierKey.metaModifier,
+                  ],
+                  keyDown: false,
+                );
+              },
+            ),
+            PreferenceListItem(
+              title: const Text('Screenshot'),
+              onTap: () async {
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.digit4,
+                  modifiers: [
+                    ModifierKey.shiftModifier,
+                    ModifierKey.metaModifier,
+                  ],
+                );
+                await keyPressSimulator.simulateKeyPress(
+                  key: LogicalKeyboardKey.digit4,
+                  modifiers: [
+                    ModifierKey.shiftModifier,
+                    ModifierKey.metaModifier,
+                  ],
+                  keyDown: false,
+                );
+              },
+            ),
+          ],
+        ),
       ],
     );
   }
