@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'known_logical_keys.dart';
+import 'package:keypress_simulator_platform_interface/keypress_simulator_platform_interface.dart';
 
 class KeyPressSimulator {
   KeyPressSimulator._();
@@ -12,47 +10,41 @@ class KeyPressSimulator {
   /// The shared instance of [KeyPressSimulator].
   static final KeyPressSimulator instance = KeyPressSimulator._();
 
-  final MethodChannel _channel = const MethodChannel('keypress_simulator');
+  KeyPressSimulatorPlatform get _platform => KeyPressSimulatorPlatform.instance;
 
-  Future<bool> isAccessAllowed() async {
-    if (!kIsWeb && Platform.isMacOS) {
-      return await _channel.invokeMethod('isAccessAllowed');
-    }
-    return true;
+  Future<bool> isAccessAllowed() {
+    return _platform.isAccessAllowed();
   }
 
   Future<void> requestAccess({
     bool onlyOpenPrefPane = false,
-  }) async {
-    if (!kIsWeb && Platform.isMacOS) {
-      final Map<String, dynamic> arguments = {
-        'onlyOpenPrefPane': onlyOpenPrefPane,
-      };
-      await _channel.invokeMethod('requestAccess', arguments);
-    }
+  }) {
+    return _platform.requestAccess(onlyOpenPrefPane: onlyOpenPrefPane);
   }
 
+  /// Simulates a key press.
   Future<void> simulateKeyPress({
     LogicalKeyboardKey? key,
+    PhysicalKeyboardKey? physicalKey,
     List<ModifierKey> modifiers = const [],
     bool keyDown = true,
-  }) async {
-    final Map<String, dynamic> arguments = {
-      'key': key != null ? kKnownLogicalKeys[key.keyId] : null,
-      'modifiers': modifiers.map((e) => describeEnum(e)).toList(),
-      'keyDown': keyDown,
-    }..removeWhere((key, value) => value == null);
-    await _channel.invokeMethod('simulateKeyPress', arguments);
+  }) {
+    return _platform.simulateKeyPress(
+      key: key,
+      physicalKey: physicalKey,
+      modifiers: modifiers,
+      keyDown: keyDown,
+    );
   }
 
-  @Deprecated("Please use simulateKeyPress method.")
+  @Deprecated('Please use simulateKeyPress method.')
   Future<void> simulateCtrlCKeyPress() async {
     await simulateKeyPress(
       key: LogicalKeyboardKey.keyC,
       modifiers: [
         Platform.isMacOS
             ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier
+            : ModifierKey.controlModifier,
       ],
     );
     await simulateKeyPress(
@@ -60,20 +52,20 @@ class KeyPressSimulator {
       modifiers: [
         Platform.isMacOS
             ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier
+            : ModifierKey.controlModifier,
       ],
       keyDown: false,
     );
   }
 
-  @Deprecated("Please use simulateKeyPress method.")
+  @Deprecated('Please use simulateKeyPress method.')
   Future<void> simulateCtrlVKeyPress() async {
     await simulateKeyPress(
       key: LogicalKeyboardKey.keyV,
       modifiers: [
         Platform.isMacOS
             ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier
+            : ModifierKey.controlModifier,
       ],
     );
     await simulateKeyPress(
@@ -81,7 +73,7 @@ class KeyPressSimulator {
       modifiers: [
         Platform.isMacOS
             ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier
+            : ModifierKey.controlModifier,
       ],
       keyDown: false,
     );

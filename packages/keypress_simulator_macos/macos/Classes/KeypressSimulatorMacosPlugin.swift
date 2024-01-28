@@ -1,11 +1,10 @@
-import Carbon
 import Cocoa
 import FlutterMacOS
 
-public class KeypressSimulatorPlugin: NSObject, FlutterPlugin {
+public class KeypressSimulatorMacosPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "keypress_simulator", binaryMessenger: registrar.messenger)
-        let instance = KeypressSimulatorPlugin()
+        let channel = FlutterMethodChannel(name: "dev.leanflutter.plugins/keypress_simulator", binaryMessenger: registrar.messenger)
+        let instance = KeypressSimulatorMacosPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -24,7 +23,6 @@ public class KeypressSimulatorPlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
-    
     public func isAccessAllowed(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         result(AXIsProcessTrusted())
     }
@@ -46,21 +44,17 @@ public class KeypressSimulatorPlugin: NSObject, FlutterPlugin {
     public func simulateKeyPress(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args:[String: Any] = call.arguments as! [String: Any]
         
-        let key: String? = args["key"] as? String
+        let keyCode: Int? = args["keyCode"] as? Int
         let modifiers: Array<String> = args["modifiers"] as! Array<String>
         let keyDown: Bool = args["keyDown"] as! Bool
         
-        let event = _createKeyPressEvent(key, modifiers, keyDown);
+        let event = _createKeyPressEvent(keyCode, modifiers, keyDown);
         event.post(tap: .cghidEventTap);
         result(true)
     }
     
-    public func _createKeyPressEvent(_ key: String?, _ modifiers: Array<String>, _ keyDown: Bool) -> CGEvent {
-        var keyCode: Int = 0
-        if (key != nil) {
-            keyCode = KnownLogicalKeys[key!]!;
-        }
-        let virtualKey: CGKeyCode = CGKeyCode(UInt32(keyCode))
+    public func _createKeyPressEvent(_ keyCode: Int?, _ modifiers: Array<String>, _ keyDown: Bool) -> CGEvent {
+        let virtualKey: CGKeyCode = CGKeyCode(UInt32(keyCode ?? 0))
         var flags: CGEventFlags = CGEventFlags()
         
         if (modifiers.contains("shiftModifier")) {
