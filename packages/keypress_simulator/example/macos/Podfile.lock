@@ -1,6 +1,6 @@
 PODS:
   - FlutterMacOS (1.0.0)
-  - HotKey (0.1.2)
+  - HotKey (0.2.0)
   - hotkey_manager (0.0.1):
     - FlutterMacOS
     - HotKey
@@ -25,11 +25,11 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/keypress_simulator/macos
 
 SPEC CHECKSUMS:
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
-  HotKey: ad59450195936c10992438c4210f673de5aee43e
-  hotkey_manager: ad673457691f4d39e481be04a61da2ae07d81c62
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  HotKey: e96d8a2ddbf4591131e2bb3f54e69554d90cdca6
+  hotkey_manager: c32bf0bfe8f934b7bc17ab4ad5c4c142960b023c
   keypress_simulator: c9697f52dc29725ce0185dcd52b6731718e0b9ca
 
-PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
+PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.14.3
