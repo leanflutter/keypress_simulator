@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keypress_simulator_platform_interface/src/keypress_simulator_platform_interface.dart';
@@ -36,27 +35,24 @@ class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
   @override
   Future<void> simulateKeyPress({
     LogicalKeyboardKey? key,
-    PhysicalKeyboardKey? physicalKey,
     List<ModifierKey> modifiers = const [],
     bool keyDown = true,
   }) async {
-    int? keyCode = UniPlatform.call<int?>(
-      macOS: () {
-        return kMacOsToPhysicalKey.entries
-            .firstWhereOrNull((e) => e.value == physicalKey)
-            ?.key;
-      },
-      windows: () => null,
-      otherwise: () => null,
-    );
-
-    if (keyCode == null) {
-      throw UnsupportedError(
-        'Unsupported logical key: $key with modifiers: $modifiers',
-      );
+    int? keyCode;
+    if (key != null) {
+      final int? physicalKeyCode = kMacOsToLogicalKey.entries
+          .firstWhereOrNull((e) => e.value == key)
+          ?.key;
+      PhysicalKeyboardKey? physicalKey;
+      if (physicalKeyCode != null) {
+        physicalKey = PhysicalKeyboardKey.findKeyByCode(physicalKeyCode);
+      }
+      keyCode = kMacOsToPhysicalKey.entries
+          .firstWhereOrNull((e) => e.value == physicalKey)
+          ?.key;
     }
     final Map<Object?, Object?> arguments = {
-      'key': key?.keyLabel,
+      'key': key?.debugName,
       'keyCode': keyCode,
       'modifiers': modifiers.map((e) => e.name).toList(),
       'keyDown': keyDown,

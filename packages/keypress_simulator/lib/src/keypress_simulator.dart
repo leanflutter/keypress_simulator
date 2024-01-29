@@ -22,61 +22,48 @@ class KeyPressSimulator {
     return _platform.requestAccess(onlyOpenPrefPane: onlyOpenPrefPane);
   }
 
-  /// Simulates a key press.
-  Future<void> simulateKeyPress({
+  /// Simulate key down.
+  Future<void> simulateKeyDown({
     LogicalKeyboardKey? key,
-    PhysicalKeyboardKey? physicalKey,
     List<ModifierKey> modifiers = const [],
-    bool keyDown = true,
   }) {
     return _platform.simulateKeyPress(
       key: key,
-      physicalKey: physicalKey,
       modifiers: modifiers,
-      keyDown: keyDown,
+      keyDown: true,
     );
   }
 
-  @Deprecated('Please use simulateKeyPress method.')
+  /// Simulate key up.
+  Future<void> simulateKeyUp({
+    LogicalKeyboardKey? key,
+    List<ModifierKey> modifiers = const [],
+  }) {
+    return _platform.simulateKeyPress(
+      key: key,
+      modifiers: modifiers,
+      keyDown: false,
+    );
+  }
+
+  @Deprecated('Please use simulateKeyDown & simulateKeyUp methods.')
   Future<void> simulateCtrlCKeyPress() async {
-    await simulateKeyPress(
-      key: LogicalKeyboardKey.keyC,
-      modifiers: [
-        Platform.isMacOS
-            ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier,
-      ],
-    );
-    await simulateKeyPress(
-      key: LogicalKeyboardKey.keyC,
-      modifiers: [
-        Platform.isMacOS
-            ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier,
-      ],
-      keyDown: false,
-    );
+    const key = LogicalKeyboardKey.keyC;
+    final modifiers = Platform.isMacOS
+        ? [ModifierKey.metaModifier]
+        : [ModifierKey.controlModifier];
+    await simulateKeyDown(key: key, modifiers: modifiers);
+    await simulateKeyUp(key: key, modifiers: modifiers);
   }
 
-  @Deprecated('Please use simulateKeyPress method.')
+  @Deprecated('Please use simulateKeyDown & simulateKeyUp methods.')
   Future<void> simulateCtrlVKeyPress() async {
-    await simulateKeyPress(
-      key: LogicalKeyboardKey.keyV,
-      modifiers: [
-        Platform.isMacOS
-            ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier,
-      ],
-    );
-    await simulateKeyPress(
-      key: LogicalKeyboardKey.keyV,
-      modifiers: [
-        Platform.isMacOS
-            ? ModifierKey.metaModifier
-            : ModifierKey.controlModifier,
-      ],
-      keyDown: false,
-    );
+    const key = LogicalKeyboardKey.keyV;
+    final modifiers = Platform.isMacOS
+        ? [ModifierKey.metaModifier]
+        : [ModifierKey.controlModifier];
+    await simulateKeyDown(key: key, modifiers: modifiers);
+    await simulateKeyUp(key: key, modifiers: modifiers);
   }
 }
 
