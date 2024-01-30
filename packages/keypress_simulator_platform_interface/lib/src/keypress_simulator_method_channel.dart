@@ -6,6 +6,15 @@ import 'package:uni_platform/uni_platform.dart';
 
 /// An implementation of [KeyPressSimulatorPlatform] that uses method channels.
 class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
+  int? _findPhysicalKeyCode(PhysicalKeyboardKey? key) {
+    final keymap = UniPlatform.select<Map<int, PhysicalKeyboardKey>>(
+      macOS: kMacOsToPhysicalKey,
+      windows: kWindowsToPhysicalKey,
+      otherwise: {},
+    );
+    return keymap.entries.firstWhereOrNull((e) => e.value == key)?.key;
+  }
+
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel(
@@ -34,26 +43,13 @@ class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
 
   @override
   Future<void> simulateKeyPress({
-    LogicalKeyboardKey? key,
+    PhysicalKeyboardKey? key,
     List<ModifierKey> modifiers = const [],
     bool keyDown = true,
   }) async {
-    int? keyCode;
-    if (key != null) {
-      final int? physicalKeyCode = kMacOsToLogicalKey.entries
-          .firstWhereOrNull((e) => e.value == key)
-          ?.key;
-      PhysicalKeyboardKey? physicalKey;
-      if (physicalKeyCode != null) {
-        physicalKey = PhysicalKeyboardKey.findKeyByCode(physicalKeyCode);
-      }
-      keyCode = kMacOsToPhysicalKey.entries
-          .firstWhereOrNull((e) => e.value == physicalKey)
-          ?.key;
-    }
     final Map<Object?, Object?> arguments = {
       'key': key?.debugName,
-      'keyCode': keyCode,
+      'keyCode': _findPhysicalKeyCode(key),
       'modifiers': modifiers.map((e) => e.name).toList(),
       'keyDown': keyDown,
     }..removeWhere((key, value) => value == null);

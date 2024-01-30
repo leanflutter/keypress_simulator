@@ -67,16 +67,16 @@ class _HomePageState extends State<HomePage> {
           print('simulateCtrlAKeyPress');
         }
         await keyPressSimulator.simulateKeyDown(
-          key: LogicalKeyboardKey.keyA,
-          modifiers: [
+          PhysicalKeyboardKey.keyA,
+          [
             Platform.isMacOS
                 ? ModifierKey.metaModifier
                 : ModifierKey.controlModifier,
           ],
         );
         await keyPressSimulator.simulateKeyUp(
-          key: LogicalKeyboardKey.keyA,
-          modifiers: [
+          PhysicalKeyboardKey.keyA,
+          [
             Platform.isMacOS
                 ? ModifierKey.metaModifier
                 : ModifierKey.controlModifier,
@@ -167,12 +167,12 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Active Spotlight'),
               onTap: () async {
                 await keyPressSimulator.simulateKeyDown(
-                  key: LogicalKeyboardKey.space,
-                  modifiers: [ModifierKey.metaModifier],
+                  PhysicalKeyboardKey.space,
+                  [ModifierKey.metaModifier],
                 );
                 await keyPressSimulator.simulateKeyUp(
-                  key: LogicalKeyboardKey.space,
-                  modifiers: [ModifierKey.metaModifier],
+                  PhysicalKeyboardKey.space,
+                  [ModifierKey.metaModifier],
                 );
               },
             ),
@@ -180,13 +180,13 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Active Siri'),
               onTap: () async {
                 await keyPressSimulator.simulateKeyDown(
-                  key: LogicalKeyboardKey.space,
-                  modifiers: [ModifierKey.metaModifier],
+                  PhysicalKeyboardKey.space,
+                  [ModifierKey.metaModifier],
                 );
                 await Future.delayed(const Duration(seconds: 6));
                 await keyPressSimulator.simulateKeyUp(
-                  key: LogicalKeyboardKey.space,
-                  modifiers: [ModifierKey.metaModifier],
+                  PhysicalKeyboardKey.space,
+                  [ModifierKey.metaModifier],
                 );
               },
             ),
@@ -195,29 +195,29 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 if (Platform.isMacOS) {
                   await keyPressSimulator.simulateKeyDown(
-                    key: LogicalKeyboardKey.digit4,
-                    modifiers: [
+                    PhysicalKeyboardKey.digit4,
+                    [
                       ModifierKey.shiftModifier,
                       ModifierKey.metaModifier,
                     ],
                   );
                   await keyPressSimulator.simulateKeyUp(
-                    key: LogicalKeyboardKey.digit4,
-                    modifiers: [
+                    PhysicalKeyboardKey.digit4,
+                    [
                       ModifierKey.shiftModifier,
                       ModifierKey.metaModifier,
                     ],
                   );
                 } else if (Platform.isWindows) {
                   await keyPressSimulator.simulateKeyDown(
-                    key: LogicalKeyboardKey.f1,
-                    modifiers: [
+                    PhysicalKeyboardKey.f1,
+                    [
                       ModifierKey.controlModifier,
                     ],
                   );
                   await keyPressSimulator.simulateKeyUp(
-                    key: LogicalKeyboardKey.f1,
-                    modifiers: [
+                    PhysicalKeyboardKey.f1,
+                    [
                       ModifierKey.controlModifier,
                     ],
                   );

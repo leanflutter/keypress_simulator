@@ -23,10 +23,10 @@ class KeyPressSimulator {
   }
 
   /// Simulate key down.
-  Future<void> simulateKeyDown({
-    LogicalKeyboardKey? key,
+  Future<void> simulateKeyDown(
+    PhysicalKeyboardKey? key, [
     List<ModifierKey> modifiers = const [],
-  }) {
+  ]) {
     return _platform.simulateKeyPress(
       key: key,
       modifiers: modifiers,
@@ -35,10 +35,10 @@ class KeyPressSimulator {
   }
 
   /// Simulate key up.
-  Future<void> simulateKeyUp({
-    LogicalKeyboardKey? key,
+  Future<void> simulateKeyUp(
+    PhysicalKeyboardKey? key, [
     List<ModifierKey> modifiers = const [],
-  }) {
+  ]) {
     return _platform.simulateKeyPress(
       key: key,
       modifiers: modifiers,
@@ -48,22 +48,22 @@ class KeyPressSimulator {
 
   @Deprecated('Please use simulateKeyDown & simulateKeyUp methods.')
   Future<void> simulateCtrlCKeyPress() async {
-    const key = LogicalKeyboardKey.keyC;
+    const key = PhysicalKeyboardKey.keyC;
     final modifiers = Platform.isMacOS
         ? [ModifierKey.metaModifier]
         : [ModifierKey.controlModifier];
-    await simulateKeyDown(key: key, modifiers: modifiers);
-    await simulateKeyUp(key: key, modifiers: modifiers);
+    await simulateKeyDown(key, modifiers);
+    await simulateKeyUp(key, modifiers);
   }
 
   @Deprecated('Please use simulateKeyDown & simulateKeyUp methods.')
   Future<void> simulateCtrlVKeyPress() async {
-    const key = LogicalKeyboardKey.keyV;
+    const key = PhysicalKeyboardKey.keyV;
     final modifiers = Platform.isMacOS
         ? [ModifierKey.metaModifier]
         : [ModifierKey.controlModifier];
-    await simulateKeyDown(key: key, modifiers: modifiers);
-    await simulateKeyUp(key: key, modifiers: modifiers);
+    await simulateKeyDown(key, modifiers);
+    await simulateKeyUp(key, modifiers);
   }
 }
 
