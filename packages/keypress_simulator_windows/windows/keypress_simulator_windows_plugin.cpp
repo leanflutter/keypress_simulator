@@ -43,7 +43,7 @@ void KeypressSimulatorWindowsPlugin::SimulateKeyPress(
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   const EncodableMap& args = std::get<EncodableMap>(*method_call.arguments());
 
-  UINT scanCode = std::get<int>(args.at(EncodableValue("keyCode")));
+  UINT scanCode = std::get<int>(args.at(EncodableValue("scanCode")));
   std::vector<std::string> modifiers;
   bool keyDown = std::get<bool>(args.at(EncodableValue("keyDown")));
 

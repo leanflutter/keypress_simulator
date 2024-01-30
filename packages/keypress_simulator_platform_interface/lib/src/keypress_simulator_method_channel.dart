@@ -9,6 +9,13 @@ class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
   int? _findPhysicalKeyCode(PhysicalKeyboardKey? key) {
     final keymap = UniPlatform.select<Map<int, PhysicalKeyboardKey>>(
       macOS: kMacOsToPhysicalKey,
+      otherwise: {},
+    );
+    return keymap.entries.firstWhereOrNull((e) => e.value == key)?.key;
+  }
+
+  int? _findPhysicalScanCode(PhysicalKeyboardKey? key) {
+    final keymap = UniPlatform.select<Map<int, PhysicalKeyboardKey>>(
       windows: kWindowsToPhysicalKey,
       otherwise: {},
     );
@@ -48,8 +55,8 @@ class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
     bool keyDown = true,
   }) async {
     final Map<Object?, Object?> arguments = {
-      'key': key?.debugName,
       'keyCode': _findPhysicalKeyCode(key),
+      'scanCode': _findPhysicalScanCode(key),
       'modifiers': modifiers.map((e) => e.name).toList(),
       'keyDown': keyDown,
     }..removeWhere((key, value) => value == null);
