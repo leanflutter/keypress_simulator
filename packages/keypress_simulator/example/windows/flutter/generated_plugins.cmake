@@ -4,7 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   hotkey_manager
-  keypress_simulator
+  keypress_simulator_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

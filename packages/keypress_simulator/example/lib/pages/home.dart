@@ -13,10 +13,8 @@ import 'package:keypress_simulator/keypress_simulator.dart';
 final hotKeyManager = HotKeyManager.instance;
 
 final kShortcutSimulateCtrlT = HotKey(
-  KeyCode.keyT,
-  modifiers: [
-    Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
-  ],
+  KeyCode.keyZ,
+  modifiers: [KeyModifier.alt],
 );
 
 final kShortcutSimulateCtrlC = HotKey(
@@ -193,6 +191,7 @@ class _HomePageState extends State<HomePage> {
             PreferenceListItem(
               title: const Text('Screenshot'),
               onTap: () async {
+                await Future<void>.delayed(const Duration(seconds: 3));
                 if (Platform.isMacOS) {
                   await keyPressSimulator.simulateKeyDown(
                     PhysicalKeyboardKey.digit4,
@@ -211,15 +210,11 @@ class _HomePageState extends State<HomePage> {
                 } else if (Platform.isWindows) {
                   await keyPressSimulator.simulateKeyDown(
                     PhysicalKeyboardKey.f1,
-                    [
-                      ModifierKey.controlModifier,
-                    ],
+                    [ModifierKey.controlModifier],
                   );
                   await keyPressSimulator.simulateKeyUp(
                     PhysicalKeyboardKey.f1,
-                    [
-                      ModifierKey.controlModifier,
-                    ],
+                    [ModifierKey.controlModifier],
                   );
                 }
               },
