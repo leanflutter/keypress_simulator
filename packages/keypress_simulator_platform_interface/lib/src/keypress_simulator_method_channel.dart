@@ -1,27 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keypress_simulator_platform_interface/src/keypress_simulator_platform_interface.dart';
+import 'package:uni_platform/src/extensions/keyboard_key.dart';
 import 'package:uni_platform/uni_platform.dart';
 
 /// An implementation of [KeyPressSimulatorPlatform] that uses method channels.
 class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
-  int? _findPhysicalKeyCode(PhysicalKeyboardKey? key) {
-    final keymap = UniPlatform.select<Map<int, PhysicalKeyboardKey>>(
-      macOS: kMacOsToPhysicalKey,
-      otherwise: {},
-    );
-    return keymap.entries.firstWhereOrNull((e) => e.value == key)?.key;
-  }
-
-  int? _findPhysicalScanCode(PhysicalKeyboardKey? key) {
-    final keymap = UniPlatform.select<Map<int, PhysicalKeyboardKey>>(
-      windows: kWindowsToPhysicalKey,
-      otherwise: {},
-    );
-    return keymap.entries.firstWhereOrNull((e) => e.value == key)?.key;
-  }
-
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel(
@@ -50,13 +34,19 @@ class MethodChannelKeyPressSimulator extends KeyPressSimulatorPlatform {
 
   @override
   Future<void> simulateKeyPress({
-    PhysicalKeyboardKey? key,
+    KeyboardKey? key,
     List<ModifierKey> modifiers = const [],
     bool keyDown = true,
   }) async {
+    PhysicalKeyboardKey? physicalKey = key is PhysicalKeyboardKey ? key : null;
+    if (key is LogicalKeyboardKey) {
+      physicalKey = key.physicalKey;
+    }
+    if (key != null && physicalKey == null) {
+      throw UnsupportedError('Unsupported key: $key.');
+    }
     final Map<Object?, Object?> arguments = {
-      'keyCode': _findPhysicalKeyCode(key),
-      'scanCode': _findPhysicalScanCode(key),
+      'keyCode': physicalKey?.keyCode,
       'modifiers': modifiers.map((e) => e.name).toList(),
       'keyDown': keyDown,
     }..removeWhere((key, value) => value == null);

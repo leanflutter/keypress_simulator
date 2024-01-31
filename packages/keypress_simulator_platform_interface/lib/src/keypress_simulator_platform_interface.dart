@@ -34,7 +34,7 @@ abstract class KeyPressSimulatorPlatform extends PlatformInterface {
   }
 
   Future<void> simulateKeyPress({
-    PhysicalKeyboardKey? key,
+    KeyboardKey? key,
     List<ModifierKey> modifiers = const [],
     bool keyDown = true,
   }) {

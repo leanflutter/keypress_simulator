@@ -53,30 +53,30 @@ import 'package:keypress_simulator/keypress_simulator.dart';
 
 // 1.1 Simulate key down
 await keyPressSimulator.simulateKeyDown(
-  key: PhysicalKeyboardKey.keyC,
-  modifiers: [ModifierKey.metaModifier],
+  PhysicalKeyboardKey.keyC,
+  [ModifierKey.metaModifier],
 );
 
 // 1.2 Simulate key up
 await keyPressSimulator.simulateKeyUp(
-  key: PhysicalKeyboardKey.keyC,
-  modifiers: [ModifierKey.metaModifier],
+  PhysicalKeyboardKey.keyC,
+  [ModifierKey.metaModifier],
 );
 
 // 2. Simulate long pressing ⌘ + space
 
 // 2.1. Simulate key down
 await keyPressSimulator.simulateKeyDown(
-  key: PhysicalKeyboardKey.space,
-  modifiers: [ModifierKey.metaModifier],
+  PhysicalKeyboardKey.space,
+  [ModifierKey.metaModifier],
 );
 
 await Future.delayed(const Duration(seconds: 5));
 
 // 2.2. Simulate key up
 await keyPressSimulator.simulateKeyUp(
-  key: PhysicalKeyboardKey.space,
-  modifiers: [ModifierKey.metaModifier],
+  PhysicalKeyboardKey.space,
+  [ModifierKey.metaModifier],
 );
 ```
 

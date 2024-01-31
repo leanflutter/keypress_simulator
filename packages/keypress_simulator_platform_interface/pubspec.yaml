@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.1.8
-  uni_platform: ^0.1.1
+  uni_platform: ^0.1.2
 
 dev_dependencies:
   flutter_test:
