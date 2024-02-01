@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keypress_simulator_platform_interface/src/keypress_simulator_platform_interface.dart';
+// ignore: implementation_imports
 import 'package:uni_platform/src/extensions/keyboard_key.dart';
 import 'package:uni_platform/uni_platform.dart';
 

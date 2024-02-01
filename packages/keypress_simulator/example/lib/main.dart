@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
-
-import './pages/home.dart';
+import 'package:flutter/material.dart';
+import 'package:keypress_simulator_example/pages/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,10 +10,10 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {

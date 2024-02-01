@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:preference_list/preference_list.dart';
 import 'package:keypress_simulator/keypress_simulator.dart';
+import 'package:preference_list/preference_list.dart';
 
 final hotKeyManager = HotKeyManager.instance;
 
@@ -36,10 +36,10 @@ final kShortcutSimulateCtrlV = HotKey(
 );
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     _init();
   }
 
-  void _init() async {
+  Future<void> _init() async {
     _isAccessAllowed = await keyPressSimulator.isAccessAllowed();
     setState(() {});
   }
@@ -91,9 +91,11 @@ class _HomePageState extends State<HomePage> {
           print('simulateCtrlVKeyPress');
         }
         ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-        await Clipboard.setData(ClipboardData(
-          text: 'KPS: ${data?.text}',
-        ));
+        await Clipboard.setData(
+          ClipboardData(
+            text: 'KPS: ${data?.text}',
+          ),
+        );
         await keyPressSimulator.simulateCtrlVKeyPress();
       },
     );
@@ -113,9 +115,11 @@ class _HomePageState extends State<HomePage> {
           print('simulateCtrlVKeyPress');
         }
         ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-        await Clipboard.setData(ClipboardData(
-          text: 'KPS: ${data?.text}',
-        ));
+        await Clipboard.setData(
+          ClipboardData(
+            text: 'KPS: ${data?.text}',
+          ),
+        );
         keyPressSimulator.simulateCtrlVKeyPress();
       },
     );
