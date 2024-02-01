@@ -13,8 +13,10 @@ import 'package:keypress_simulator/keypress_simulator.dart';
 final hotKeyManager = HotKeyManager.instance;
 
 final kShortcutSimulateCtrlT = HotKey(
-  KeyCode.keyZ,
-  modifiers: [KeyModifier.alt],
+  KeyCode.keyT,
+  modifiers: [
+    Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
+  ],
 );
 
 final kShortcutSimulateCtrlC = HotKey(
